@@ -1,10 +1,14 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+import { ENDPOINTS } from "../../config/endpoints.js";
+import { AUTH } from "../../config/authentication.js";
+
+
 
 export const options = {
-  vus: 5,      // Hanya 1 Virtual User
-  duration: '10s', // Durasi pengujian 10 detik
+  vus: 2,      // Hanya 1 Virtual User
+  duration: '5s', // Durasi pengujian 10 detik
   thresholds: {
     http_req_failed: ['rate<0.01'], 
     http_req_duration: ['p(90)<3000'],
@@ -14,10 +18,10 @@ export const options = {
 export function setup() {
   console.log('Running setup: Attempting to obtain authentication token...');
 
-  const loginUrl = 'https://q100-api-staging.biofarma.co.id/auam/v1/Auth/Login';
+  const loginUrl = ENDPOINTS.LOGIN_URL;  
   const credentials = {
-    userName: "1689",
-    password: "P@st3ur1689*()",
+    userName: AUTH.KASIE_PEMFAS_WM,
+    password: `P@st3ur${AUTH.KASIE_PEMFAS_WM}*()`,
     applicationCode: "AC-046",
     isForce: true
   };
@@ -25,8 +29,8 @@ export function setup() {
   const commonHeaders = {
     'Content-Type': 'application/json',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-    'Referer': 'https://q100-staging.biofarma.co.id/', 
-    'Origin': 'https://q100-staging.biofarma.co.id/' 
+    'Referer': 'https://q100-staging-onprem.biofarma.co.id/', 
+    'Origin': 'https://q100-staging-onprem.biofarma.co.id/' 
   };
 
   const loginRes = http.post(loginUrl, JSON.stringify(credentials), {
@@ -85,18 +89,17 @@ export default function (data) {
     Authorization: `Bearer ${data.token}`,
   };
 
-  const TransferList_API1 = 'https://q100-api-testing-onprem.biofarma.co.id/qcs-water-monitoring/v1/Transfer/List?limit=10&page=1&objectStatus=1%2C2%2C3%2C4&roleQC=RV-JNU%2CWM-KSI-OP%2CAM-KSI-AU%2COP-CAPA%2CKS_FCLT_WM';
-  const TransferList_API1_res = http.get(TransferList_API1, {
+  const TransferList_API1_res = http.get(ENDPOINTS.TRANSFER_LIST_API_1, {
     headers: apiHeaders, 
-    tags: { name: 'TransferList_API1' } 
+    tags: { name: 'TRANSFER_LIST_API_1' } 
   });
 
   check(TransferList_API1_res, {
-    'TransferList_API1: status is 200': (r) => r.status === 200,
+    'TRANSFER_LIST_API_1: status is 200': (r) => r.status === 200,
   });
 
   if (TransferList_API1_res.status !== 200) {
-      console.error(`[VU ${__VU}]: TransferList_API1 failed with status ${TransferList_API1_res.status}. Body: ${TransferList_API1_res.body}`);
+      console.error(`[VU ${__VU}]: TRANSFER_LIST_API_1 failed with status ${TransferList_API1_res.status}. Body: ${TransferList_API1_res.body}`);
   }
 
 }

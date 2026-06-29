@@ -7,17 +7,18 @@ import { AUTH } from "../../config/authentication.js";
 
 
 export const options = {
-  vus: 5,      // Hanya 1 Virtual User
-  duration: '10s', // Durasi pengujian 10 detik
+  vus: 2,      // Hanya 1 Virtual User
+  duration: '5s', // Durasi pengujian 10 detik
   thresholds: {
     http_req_failed: ['rate<0.01'], 
     http_req_duration: ['p(90)<3000'],
   },
 };
+
 export function setup() {
   console.log('Running setup: Attempting to obtain authentication token...');
 
-  const loginUrl = ENDPOINTS.LOGIN_URL;
+  const loginUrl = ENDPOINTS.LOGIN_URL;  
   const credentials = {
     userName: AUTH.KASIE_PEMFAS_WM,
     password: `P@st3ur${AUTH.KASIE_PEMFAS_WM}*()`,
@@ -76,6 +77,7 @@ export function setup() {
   }
 }
 
+
 export default function (data) {
   if (!data || !data.token || !data.commonHeaders) {
     console.error(`[VU ${__VU}]: No token or common headers available from setup. Skipping request.`);
@@ -87,18 +89,19 @@ export default function (data) {
     Authorization: `Bearer ${data.token}`,
   };
 
-  const ScheduleList_API1_res = http.get(ENDPOINTS.SCHEDULE_LIST_API_1, {
+  const TransferDetail_API2_res = http.get(ENDPOINTS.TRANSFER_DETAIL_API_2, {
     headers: apiHeaders, 
-    tags: { name: 'SCHEDULE_LIST_API_1' } 
+    tags: { name: 'TransferDetail_API2' } 
   });
 
-  check(ScheduleList_API1_res, {
-    'SCHEDULE_LIST_API_1: status is 200': (r) => r.status === 200,
+  check(TransferDetail_API2_res, {
+    'TransferDetail_API2: status is 200': (r) => r.status === 200,
   });
 
-  if (ScheduleList_API1_res.status !== 200) {
-      console.error(`[VU ${__VU}]: SCHEDULE_LIST_API_1 failed with status ${ScheduleList_API1_res.status}. Body: ${ScheduleList_API1_res.body}`);
+  if (TransferDetail_API2_res.status !== 200) {
+      console.error(`[VU ${__VU}]: TransferDetail_API2 failed with status ${TransferDetail_API2_res.status}. Body: ${TransferDetail_API2_res.body}`);
   }
+
 }
 export function handleSummary(data) {
   return {

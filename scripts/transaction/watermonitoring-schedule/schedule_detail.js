@@ -2,6 +2,7 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 import { ENDPOINTS } from "../../config/endpoints.js";
+import { AUTH } from "../../config/authentication.js";
 
 export const options = {
   vus: 5,      // Hanya 1 Virtual User
@@ -17,8 +18,8 @@ export function setup() {
 
   const loginUrl = ENDPOINTS.LOGIN_URL;
   const credentials = {
-    userName: "1689",
-    password: "P@st3ur1689*()",
+    userName: AUTH.KASIE_PEMFAS_WM,
+    password: `P@st3ur${AUTH.KASIE_PEMFAS_WM}*()`,
     applicationCode: "AC-046",
     isForce: true
   };
@@ -26,8 +27,8 @@ export function setup() {
   const commonHeaders = {
     'Content-Type': 'application/json',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-    'Referer': 'https://q100-staging.biofarma.co.id/', 
-    'Origin': 'https://q100-staging.biofarma.co.id/' 
+    'Referer': 'https://q100-staging-onprem.biofarma.co.id/', 
+    'Origin': 'https://q100-staging-onprem.biofarma.co.id/' 
   };
 
   const loginRes = http.post(loginUrl, JSON.stringify(credentials), {

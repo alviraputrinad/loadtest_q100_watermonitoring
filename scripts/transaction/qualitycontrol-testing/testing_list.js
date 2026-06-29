@@ -14,13 +14,14 @@ export const options = {
     http_req_duration: ['p(90)<3000'],
   },
 };
+
 export function setup() {
   console.log('Running setup: Attempting to obtain authentication token...');
 
-  const loginUrl = ENDPOINTS.LOGIN_URL;
+  const loginUrl = ENDPOINTS.LOGIN_URL;  
   const credentials = {
-    userName: AUTH.KASIE_PEMFAS_WM,
-    password: `P@st3ur${AUTH.KASIE_PEMFAS_WM}*()`,
+    userName: AUTH.OPERATOR_UJI_WM,
+    password: `P@st3ur${AUTH.OPERATOR_UJI_WM}*()`,
     applicationCode: "AC-046",
     isForce: true
   };
@@ -28,8 +29,8 @@ export function setup() {
   const commonHeaders = {
     'Content-Type': 'application/json',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-    'Referer': 'https://q100-staging-onprem.biofarma.co.id/', 
-    'Origin': 'https://q100-staging-onprem.biofarma.co.id/' 
+    'Referer': 'https://q100-staging.biofarma.co.id/', 
+    'Origin': 'https://q100-staging.biofarma.co.id/' 
   };
 
   const loginRes = http.post(loginUrl, JSON.stringify(credentials), {
@@ -76,6 +77,7 @@ export function setup() {
   }
 }
 
+
 export default function (data) {
   if (!data || !data.token || !data.commonHeaders) {
     console.error(`[VU ${__VU}]: No token or common headers available from setup. Skipping request.`);
@@ -87,18 +89,19 @@ export default function (data) {
     Authorization: `Bearer ${data.token}`,
   };
 
-  const ScheduleList_API1_res = http.get(ENDPOINTS.SCHEDULE_LIST_API_1, {
+  const TransferList_API2_res = http.get(ENDPOINTS.TRANSFER_DETAIL_API_2, {
     headers: apiHeaders, 
-    tags: { name: 'SCHEDULE_LIST_API_1' } 
+    tags: { name: 'TransferList_API2' } 
   });
 
-  check(ScheduleList_API1_res, {
-    'SCHEDULE_LIST_API_1: status is 200': (r) => r.status === 200,
+  check(TransferList_API2_res, {
+    'TransferList_API2: status is 200': (r) => r.status === 200,
   });
 
-  if (ScheduleList_API1_res.status !== 200) {
-      console.error(`[VU ${__VU}]: SCHEDULE_LIST_API_1 failed with status ${ScheduleList_API1_res.status}. Body: ${ScheduleList_API1_res.body}`);
+  if (TransferList_API2_res.status !== 200) {
+      console.error(`[VU ${__VU}]: TransferList_API2 failed with status ${TransferList_API2_res.status}. Body: ${TransferList_API2_res.body}`);
   }
+
 }
 export function handleSummary(data) {
   return {
