@@ -102,6 +102,33 @@ export default function (data) {
       console.error(`[VU ${__VU}]: DSBD_LIVE_TRENDING_API1 failed with status ${DSBD_LIVE_TRENDING_API1_res.status}. Body: ${DSBD_LIVE_TRENDING_API1_res.body}`);
   }
 
+    const DSBD_OVERVIEW_API1_res = http.get(ENDPOINTS.DSBD_OVERVIEW_API1, {
+    headers: apiHeaders, 
+    tags: { name: 'DSBD_OVERVIEW_API1' } 
+  });
+
+  check(DSBD_OVERVIEW_API1_res, {
+    'DSBD_OVERVIEW_API1: status is 200': (r) => r.status === 200,
+  });
+
+  if (DSBD_OVERVIEW_API1_res.status !== 200) {
+      console.error(`[VU ${__VU}]: DSBD_OVERVIEW_API1 failed with status ${DSBD_OVERVIEW_API1_res.status}. Body: ${DSBD_OVERVIEW_API1_res.body}`);
+  }
+
+   const DSBD_COMPARISON_API1_res = http.get(ENDPOINTS.DSBD_COMPARISON_API1, {
+    headers: apiHeaders, 
+    tags: { name: 'DSBD_COMPARISON_API1' } 
+  });
+
+  check(DSBD_COMPARISON_API1_res, {
+    'DSBD_COMPARISON_API1: status is 200': (r) => r.status === 200,
+  });
+
+  if (DSBD_COMPARISON_API1_res.status !== 200) {
+      console.error(`[VU ${__VU}]: DSBD_COMPARISON_API1 failed with status ${DSBD_COMPARISON_API1_res.status}. Body: ${DSBD_COMPARISON_API1_res.body}`);
+  }
+
+  
 }
 export function handleSummary(data) {
   return {

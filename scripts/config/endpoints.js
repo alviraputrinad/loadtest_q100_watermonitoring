@@ -28,7 +28,7 @@ export const ENDPOINTS = {
     DEVIATION_DETAIL_API_1 : `${BASE_URL}/qcs-water-monitoring/v1/Deviation/GetDetailById?id=b8923223-f45a-4dfe-95cb-d205ab52bd19`,
     
     DSBD_LIVE_TRENDING_API1 : `${BASE_URL}/qcs-water-monitoring/v1/DashboardLiveTranding/Get?StartDate=2026-01-01T00%3A00%3A00%2B07%3A00&EndDate=2026-12-31T23%3A59%3A59%2B07%3A00&WTPId=45&Purpose=QualificationPhase1&TestTypeId=285&LoopId=304&UsePointId=767`,
-    DSBD_OVERVIEW_API1 : `${BASE_URL}/qcs-water-monitoring/v1/Dashboard?startMonth=1&endMonth=12&startYear=2026&endYear=2026&wtp=WTP-GD-36`
-    
+    DSBD_OVERVIEW_API1 : `${BASE_URL}/qcs-water-monitoring/v1/Dashboard?startMonth=1&endMonth=12&startYear=2026&endYear=2026&wtp=WTP-GD-36`,
+    DSBD_COMPARISON_API1 : `${BASE_URL}/qcs-water-monitoring/v1/DashboardComparison/Get?StartDate=2026-01-01T00%3A00%3A00%2B07%3A00&EndDate=2026-12-31T23%3A59%3A59%2B07%3A00&WTPId=45&Purpose=Uji+Kualifikasi+Fase+2&TestTypeId=286&LoopId=302&LoopId=304&UsePointId=704&UsePointId=707`
 
 };
