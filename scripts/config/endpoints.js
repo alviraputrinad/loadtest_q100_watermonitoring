@@ -17,7 +17,7 @@ export const ENDPOINTS = {
     TESTING_DETAIL_API_2 : `${BASE_URL}/qcs-water-monitoring/v1/Testing/763`,
 
     IDENT_LIST_API_1 : `${BASE_URL}/qcs-water-monitoring/v1/UjiIdent/List?status=2&limit=10&page=1&dateFrom=2024-01-01&dateTo=2026-06-29`,
-    IDENT_LIST_API_2 : `${BASE_URL}/v1/UjiIdent/BatchList`,
+    IDENT_LIST_API_2 : `${BASE_URL}/qcs-water-monitoring/v1/UjiIdent/BatchList`,
 
     REVIEW_LIST_API_1 : `${BASE_URL}/qcs-water-monitoring/v1/Testing/approval?search=&limit=10&page=1&statuses=3%2C2%2C1%2C4%2C5%2C6%2C7&startDate=2026-01-01&endDate=2026-06-29&method=Endotoksin&waterType=WFI%2CPS%2CPTW%2CPW%2CRW`,
     REVIEW_DETAIL_API_2 : `${BASE_URL}/qcs-water-monitoring/v1/Testing/738`,
